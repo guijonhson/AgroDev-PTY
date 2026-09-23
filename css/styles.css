@@ -639,3 +639,20 @@ pre {
 .contact-details a:hover {
   text-decoration: underline;
 }
+
+.form-status {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  min-height: 1.2em;
+}
+
+.form-status:not(:empty) {
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

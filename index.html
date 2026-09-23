@@ -328,22 +328,29 @@
           </div>
         </div>
 
-        <form class="contact-form" id="contactForm">
-          <label for="name">Nombre</label>
-          <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+       <form class="contact-form" id="contactForm">
+        <!-- Web3Forms -->
+        <input type="hidden" name="access_key" value="10b677b5-bd6a-43c2-9ef3-435a57d3fc1a">
+        <input type="hidden" name="subject" value="Nueva consulta desde AgroDev PTY">
+        <input type="hidden" name="from_name" value="Formulario AgroDev PTY">
+        <!-- Antispam (honeypot) -->
+        <input type="checkbox" name="botcheck" style="display:none">
 
-          <label for="email">Correo electrónico</label>
-          <input type="email" id="email" name="email" placeholder="tu@empresa.com" required>
+        <label for="name">Nombre</label>
+        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
 
-          <label for="company">Empresa</label>
-          <input type="text" id="company" name="company" placeholder="Nombre de la empresa">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" placeholder="tu@empresa.com" required>
 
-          <label for="message">¿En qué podemos ayudarte?</label>
-          <textarea id="message" name="message" rows="5" placeholder="Cuéntanos brevemente sobre tu proyecto..." required></textarea>
+        <label for="company">Empresa</label>
+        <input type="text" id="company" name="company" placeholder="Nombre de la empresa">
 
-          <button type="submit" class="btn btn-primary btn-full">Enviar consulta</button>
-          <p class="form-status" id="formStatus" role="status"></p>
-        </form>
+        <label for="message">¿En qué podemos ayudarte?</label>
+        <textarea id="message" name="message" rows="5" placeholder="Cuéntanos brevemente sobre tu proyecto..." required></textarea>
+
+        <button type="submit" class="btn btn-primary btn-full">Enviar consulta</button>
+        <p class="form-status" id="formStatus" role="status"></p>
+      </form>
       </div>
     </section>
   </main>

@@ -21,23 +21,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  platformButton.addEventListener("click", () => {
-    alert("El portal de clientes estará disponible próximamente.");
-  });
+contactForm.addEventListener("submit", async event => {
+  event.preventDefault();
 
-  contactForm.addEventListener("submit", event => {
-    event.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
 
-    const name = document.getElementById("name").value.trim();
+  if (!name || !email || !message) {
+    formStatus.textContent = "Por favor, completa nombre, correo y mensaje.";
+    return;
+  }
 
-    if (!name) {
-      formStatus.textContent = "Por favor, completa tu nombre.";
-      return;
+  const submitBtn = contactForm.querySelector("button[type='submit']");
+  const originalText = submitBtn.textContent;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Enviando...";
+  formStatus.textContent = "";
+
+    try {
+      const formData = new FormData(contactForm);
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        formStatus.textContent = "✅ Gracias, " + name + ". Te contactaremos pronto.";
+        contactForm.reset();
+      } else {
+        formStatus.textContent = "❌ No se pudo enviar. Intenta de nuevo.";
+      }
+    } catch (error) {
+      formStatus.textContent = "❌ Error de conexión. Revisa tu internet.";
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
     }
-
-    formStatus.textContent =
-      "Gracias, " + name + ". El formulario está listo para conectarse a tu sistema de contacto.";
-
-    contactForm.reset();
   });
 });
