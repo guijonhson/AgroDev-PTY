@@ -21,18 +21,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-const form = document.getElementById('form');
-const submitBtn = form.querySelector('button[type="submit"]');
+const submitBtn = contactForm.querySelector('button[type="submit"]');
 
-form.addEventListener('submit', async (e) => {
+contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
-    formData.append("access_key", "10b677b5-bd6a-43c2-9ef3-435a57d3fc1a");
+    // Honeypot antispam: si el campo oculto fue llenado, es un bot, no enviamos nada.
+    if (contactForm.botcheck && contactForm.botcheck.checked) {
+      return;
+    }
 
+    const formData = new FormData(contactForm);
     const originalText = submitBtn.textContent;
 
-    submitBtn.textContent = "Sending...";
+    formStatus.classList.remove("success", "error");
+    submitBtn.textContent = "Enviando...";
     submitBtn.disabled = true;
 
     try {
@@ -43,15 +46,18 @@ form.addEventListener('submit', async (e) => {
 
         const data = await response.json();
 
-        if (response.ok) {
-            alert("Success! Your message has been sent.");
-            form.reset();
+        if (response.ok && data.success) {
+            formStatus.textContent = "¡Gracias! Tu mensaje fue enviado. Te contactaremos pronto.";
+            formStatus.classList.add("success");
+            contactForm.reset();
         } else {
-            alert("Error: " + data.message);
+            formStatus.textContent = "No se pudo enviar el mensaje. Intenta de nuevo o escríbenos a agrodevpty@gmail.com.";
+            formStatus.classList.add("error");
         }
 
     } catch (error) {
-        alert("Something went wrong. Please try again.");
+        formStatus.textContent = "Error de conexión. Intenta de nuevo o escríbenos a agrodevpty@gmail.com.";
+        formStatus.classList.add("error");
     } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
